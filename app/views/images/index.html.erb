@@ -1,0 +1,54 @@
+<div class="cover_flow">
+  <% if @images.size >= 3 %>
+    <div class="ContentFlow">
+      <div class="loadIndicator"><div class="indicator"></div></div>
+      <div class="flow">
+        <% @images.each do |image| %>
+
+          <%= image_tag image.data.url(:medium) , :title => '', :class => 'item', :href => image.data.url(:large), :rel => image.id, :ref => image.like_count %>
+        <% end %>
+      </div>
+      <div class="scrollbar">
+        <div class="slider">
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <h1>Please upload at least 3 images</h1>
+  <% end %>
+</div>
+
+<p style="text-align: center">
+  <a href="#" id="toggle_cover_flow">Toogle Coverflow</a>
+</p>
+
+<hr />
+
+<h1>Upload image</h1>
+
+<%= render 'form' %>
+
+<hr />
+
+<h1>Listing images</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <% @images.each_with_index do |image, i| %>
+      <td>
+        <%= link_to image_tag(image.data.url(:medium)).html_safe, image.data.url %>  
+        <br />
+        <%= link_to 'Destroy', image, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+      </td>
+      <% if ((i+1) % 3).zero? %>
+        </tr>
+        <tr>
+      <% end %>
+    <% end %>
+  </tr>
+</table>
